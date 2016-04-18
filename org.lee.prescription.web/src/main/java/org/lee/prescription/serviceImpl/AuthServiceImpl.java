@@ -20,8 +20,10 @@ public class AuthServiceImpl implements AuthService {
 	public void test11111 (){
 		System.out.println("just test");
 	}
-	
-	
+	//李建威添加
+	public void test 333333(){
+		System.out.println("just test");
+	}
 	
 	public void test0022 (){
 		System.out.println("just t0022");

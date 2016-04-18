@@ -16,6 +16,13 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	//add by lijw 2016-4-18 12:05:25
+	public void test11111 (){
+		System.out.println("just test");
+	}
+	
+	
+	
 	public void test0022 (){
 		System.out.println("just t0022");
 	}

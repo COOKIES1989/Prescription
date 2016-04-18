@@ -16,6 +16,12 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	
+	
+	public void test (){
+		System.out.println("just test");
+	}
+	
 	public List<String> getAuth(String userid) {
 		String sql = "SELECT FU.ID FROM "+
 				  "SYS_FUNCTION FU " + 

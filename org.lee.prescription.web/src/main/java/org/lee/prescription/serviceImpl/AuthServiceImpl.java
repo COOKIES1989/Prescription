@@ -16,10 +16,18 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	//测试添加分支   李建威
+	
+	  
+	
 	//add by lijw 2016-4-18 12:05:25
 	public void test11111 (){
 		System.out.println("just test");
 	}
+	
+	
+	
+	
 	//李建威添加
 	public void test333333(){
 		System.out.println("just test");

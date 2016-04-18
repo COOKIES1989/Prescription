@@ -17,8 +17,8 @@ public class AuthServiceImpl implements AuthService {
 	private SessionFactory sessionFactory;
 	
 	//测试添加分支   李建威
-	
-	  
+	//添加分支之后的测试。。。。。。。2016年4月18日12:22:32
+	 
 	
 	//add by lijw 2016-4-18 12:05:25
 	public void test11111 (){

@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.lee.prescription</groupId>
+  <artifactId>org.lee.prescription.web</artifactId>
+  <packaging>war</packaging>
+  <version>0.1</version>
+  <name>org.lee.prescription.web Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+		<!-- Spring 相关 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.2.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.2.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>3.2.2.RELEASE</version>
+		</dependency>
+		<!-- 主要用于spring整合ehcache -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+		  	<artifactId>spring-context-support</artifactId>
+		  	<version>3.2.2.RELEASE</version>	
+		</dependency>
+		<!-- ehcache缓存jar包 -->
+	 	<dependency>
+	 		<groupId>net.sf.ehcache</groupId>
+    		<artifactId>ehcache</artifactId>
+   		 	<version>1.4.1</version>
+	 	</dependency>
+		
+		
+		<!-- hibernate 相关 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+  			<artifactId>hibernate-core</artifactId>
+  			<version>4.2.0.Final</version>
+		</dependency>
+
+		<!-- hibernate 事务管理包, 与spring 相关 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+
+		<!-- oracle 数据库驱动 -->
+		<dependency>
+			<groupId>ojdbc</groupId>
+			<artifactId>ojdbc</artifactId>
+			<version>14</version>
+		</dependency>
+
+		<!-- 数据库链接池的包 -->
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+		
+		<!-- quartz定时任务相关jar包 -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.6</version>
+		</dependency>
+				
+		
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+  			<artifactId>gson</artifactId>
+  			<version>2.2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+  <build>
+    <finalName>org.lee.prescription.web</finalName>
+  </build>
+</project>

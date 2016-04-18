@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans            
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd            
+		http://www.springframework.org/schema/context             
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd            
+		http://www.springframework.org/schema/aop             
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd            
+		http://www.springframework.org/schema/tx             
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd            
+		http://www.springframework.org/schema/mvc          
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/cache
+    	http://www.springframework.org/schema/cache/spring-cache-3.1.xsd            
+		http://www.springframework.org/schema/context             
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- 启用spring mvc 注解  并解決@responsbody中文乱码问题-->
+	<!-- <context:annotation-config /> -->
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/html;charset=utf-8"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- 完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- 设置使用注解的类所在的位置-->
+	<context:component-scan base-package="org.lee.prescription.*" />
+    
+	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+
+		<property name="jdbcUrl">
+			<value>jdbc:oracle:thin:@127.0.0.1:1521:xe</value>
+		</property>
+
+		<property name="user">
+			<value>prescription</value>
+		</property>
+		<property name="password">
+			<value>prescription</value>
+		</property>
+
+		<property name="minPoolSize">
+			<value>1</value>
+		</property>
+
+		<property name="maxPoolSize">
+			<value>40</value>
+		</property>
+
+		<property name="initialPoolSize">
+			<value>2</value>
+		</property>
+
+		<property name="acquireIncrement">
+			<value>2</value>
+		</property>
+
+		<property name="acquireRetryAttempts">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<!--定义Hibernate的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 定义SessionFactory必须注入dataSource -->
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<!-- 定义Hibernate的SessionFactory属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop><!-- Oracle数据链接 -->
+				<!--  hibernate.show_sql:输出所有SQL语句到控制台; hibernate.format_sql:在log和console中打印出更漂亮的SQL -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<!-- 指定sessionFactory要加载的实体类，实体类中通过注解关联到具体的表 -->
+		<property name="packagesToScan" value="org.lee.prescription.model"></property>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- 方式二：使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法-->    
+    <!-- 定义目标bean和bean中的方法 -->  
+    <bean id="SpringQtzJob" class="org.lee.prescription.util.SpringQtz"/>  
+    <bean id="SpringQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <property name="targetObject">  
+        <ref bean="SpringQtzJob"/>  
+    </property>  
+    <property name="targetMethod">  <!-- 要执行的方法名称 -->  
+        <value>dosome</value>  
+    </property>  
+	</bean>  
+	  
+	<!-- ======================== 调度触发器 ======================== -->  
+	<bean id="CronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+	    <property name="jobDetail" ref="SpringQtzJobMethod"></property>  
+	    <property name="cronExpression" value="0 */1 * * * ?"></property>  
+	</bean>  
+	  
+	<!-- ======================== 调度工厂 ======================== -->  
+	<bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+	    <property name="triggers">  
+	        <list>  
+	            <ref bean="CronTriggerBean"/>  
+	        </list>  
+	    </property>  
+	</bean>    
+	
+	
+	
+	<!-- 开启注解式事务管理 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<!-- 启用缓存注解 -->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    
+	<!-- 声明缓存管理类 -->
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>
+    
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+           <property name="configLocation" value="classpath:ehcache-config.xml"></property>
+    </bean>
+
+</beans>
+

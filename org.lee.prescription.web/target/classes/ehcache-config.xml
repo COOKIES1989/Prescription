@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache>
+	<!-- 缓存文件的创建路径 -->
+	<diskStore path="java.io.tmpdir"></diskStore>
+	
+     <!-- maxElementsInMemory:设置基于内存的缓存可存放对象的最大数目
+     	  eternal:如果为true，表示对象永远不会过期，此时会忽略timeToIdleSeconds和timeToLiveSeconds属性，默认为false
+     	  timeToIdleSeconds:允许对象处于空闲的最大时间，单位：秒 ,0表示可以无限空闲
+     	  timeToLiveSeconds:对象在缓存中存在的最长时间 ，单位：秒，0表示可以无限生存
+     	  overflowToDisk:如果为true则表示内存中的缓存对象超过了maxElementsInMemory的值，就将溢出的对象写到基于硬盘中的缓存中
+     	  memoryStoreEvictionPolicy:缓存对象清除策略，有三种：
+     	  	FIFO：first in first out ,先进先出
+     	  	LFU：less Frequently Used ,使用频率最小
+     	  	LRU：Least Recently Used ,按照时间，清除最早的-->
+     	  	
+    <!-- 定义默认的缓存区，如果在未指定缓存区时，默认使用该缓存区 -->
+    <defaultCache 
+    	maxElementsInMemory="500"
+    	eternal="true"
+    	timeToIdleSeconds="0"
+    	timeToLiveSeconds="0"
+        overflowToDisk="false" 
+        memoryStoreEvictionPolicy="LFU">
+    </defaultCache>
+    
+    <!-- 定义名字为"CODE_CACHE"的缓存区 -->
+    <cache 
+    	name="CODE_CACHE" 
+    	maxElementsInMemory="500" 
+    	eternal="true"
+    	timeToIdleSeconds="0"
+    	timeToLiveSeconds="0"
+        overflowToDisk="false"
+        memoryStoreEvictionPolicy="LFU" />
+</ehcache>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

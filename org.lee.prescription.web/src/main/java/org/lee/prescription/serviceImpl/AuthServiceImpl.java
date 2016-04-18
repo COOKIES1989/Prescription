@@ -23,6 +23,8 @@ public class AuthServiceImpl implements AuthService {
 	
 	
 	
+	
+	
 	public void test0022 (){
 		System.out.println("just t0022");
 	}

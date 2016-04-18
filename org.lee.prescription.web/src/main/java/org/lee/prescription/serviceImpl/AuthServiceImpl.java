@@ -15,7 +15,10 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
+	public void test0022 (){
+		System.out.println("just t0022");
+	}
 	
 	public void tttt(){
 		System.out.println("just ttt");

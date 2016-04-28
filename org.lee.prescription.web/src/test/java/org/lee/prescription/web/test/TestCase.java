@@ -9,9 +9,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.Test;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @ClassName TestCase
@@ -23,8 +27,16 @@ import org.junit.Test;
 public class TestCase {
 	
 	
-	
 	@Test
+	public void testName_04() throws Exception {
+		String str = "{\"id\":\"123\",\"data\":{\"flag\":\"fff\"}}";
+		JSONObject parseObject = JSON.parseObject(str);
+		System.out.println(parseObject.getJSONObject("data").get("flag"));
+	}
+	
+	
+	
+//	@Test
 	public void testName_03() throws Exception {
 		int max = Math.max((int) (61/.75f) + 1, 16);
 		System.out.println(max);
